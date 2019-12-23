@@ -1,15 +1,33 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <head>
-        <title>Sign up form</title>
+        <title>Shopping list</title>
     </head>
     <body>
+        <h2>My shopping list</h2>
 
-        <h1>Sign up to the event using this form</h1>
+        <table>
+            <thead>
+            <tr>
+                <th>Item</th><th>Amount</th><th>Delete</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${items.empty}">
+                <td colspan="3">No items</td>
+            </tr>
+            <tr th:each="item : ${items}">
+                <td th:text="${item.name}">Item name</td>
+                <td th:text="${item.amount}">Amount</td>
+                <td><form th:action="@{/items/{id}(id=${item.id})}" th:method="delete"><input type="submit" value="Delete"/></form></td>
+            </tr>
+            </tbody>
+        </table>
+        <h2>Add new items to shopping list using this form</h2>
 
-        <form action="#" th:action="@{/form}" method="POST">
+        <form action="#" th:action="@{/items}" method="POST">
             <p><label for="name">Name</label>: <input type="text" name="name" id="name"/></p>
-            <p><label for="address">Address</label>: <input type="text" name="address" id="address"/></p>
+            <p><label for="amount">Amount</label>: <input type="text" name="amount" id="amount"/></p>
             <p><input type="submit" value="Submit" /></p>
         </form>
 
