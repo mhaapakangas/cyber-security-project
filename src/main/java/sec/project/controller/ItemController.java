@@ -28,22 +28,22 @@ public class ItemController {
     }
 
     @RequestMapping(value = "/items", method = RequestMethod.GET)
-    public String loadForm(Authentication authentication, Model model) {
+    public String listItems(Authentication authentication, Model model) {
         model.addAttribute("items", accountRepository.findByUsername(authentication.getName()).getItems());
-        return "form";
+        return "items";
     }
 
     @RequestMapping(value = "/items", method = RequestMethod.POST)
-    public String submitForm(Authentication authentication, @RequestParam String name, @RequestParam String amount) {
+    public String addItem(Authentication authentication, @RequestParam String name, @RequestParam String amount) {
         Account account = accountRepository.findByUsername(authentication.getName());
 
         itemRepository.save(new Item(name, amount, account));
-        return "redirect:/form";
+        return "redirect:/items";
     }
 
     @RequestMapping(value = "/items/{id}", method = RequestMethod.DELETE)
-    public String delete(@PathVariable Long id) {
+    public String deleteItem(@PathVariable Long id) {
         itemRepository.delete(id);
-        return "redirect:/form";
+        return "redirect:/items";
     }
 }
